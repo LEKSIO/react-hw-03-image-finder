@@ -2,9 +2,9 @@
  * Стили компонента Searchbar
  */
 .searchbar {
+  position: sticky;
   top: 0;
   left: 0;
-  position: sticky;
   z-index: 1100;
   display: flex;
   justify-content: center;
@@ -35,7 +35,7 @@
   width: 48px;
   height: 48px;
   border: 0;
-  /* background-image: url('../../icons/Magnifying_glass_icon.svg.png'); */
+  background-image: url('../../icons/Magnifying_glass_icon.svg.png');
   background-size: 45%;
   background-repeat: no-repeat;
   background-position: center;
