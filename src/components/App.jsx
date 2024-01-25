@@ -2,7 +2,8 @@ import { Component } from 'react';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 
-import { LARGE_IMAGE_URL } from 'utilities/constants';
+import { LARGE_IMAGE_URL, PER_PAGE, STATUSES } from 'utilities/constants';
+import { axiosGet } from 'services/api';
 
 export class App extends Component {
   state = {
@@ -14,6 +15,28 @@ export class App extends Component {
     totalPages: null,
     isModalOpen: false,
     modalData: null,
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.query !== this.state.query ||
+      prevState.page !== this.state.page
+    )
+      this.getImages();
+  }
+
+  getImages = async () => {
+    try {
+      this.setState({ status: STATUSES.pending });
+      const { hits, totalHits } = await axiosGet(this.state);
+      this.setState(prevState => ({
+        hits: prevState.page === 1 ? hits : [...prevState.hits, ...hits],
+        status: STATUSES.success,
+        totalPages: Math.ceil(totalHits / PER_PAGE),
+      }));
+    } catch (error) {
+      this.setState({ status: STATUSES.error, error: error.message });
+    }
   };
 
   handleOnClickImage = e => {
