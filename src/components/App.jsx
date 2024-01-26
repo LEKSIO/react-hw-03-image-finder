@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
+import { ThreeDots } from 'react-loader-spinner';
 
 import { LARGE_IMAGE_URL, PER_PAGE, STATUSES } from 'utilities/constants';
 import { axiosGet } from 'services/api';
@@ -52,6 +53,7 @@ export class App extends Component {
   };
 
   render() {
+    const isPending = this.state.status === STATUSES.pending;
     return (
       <>
         <Searchbar changeStateQuery={this.changeStateQuery} />
@@ -59,6 +61,14 @@ export class App extends Component {
           hits={this.state.hits}
           handleOnClickImage={this.handleOnClickImage}
         />
+        {isPending && (
+          <ThreeDots
+            height="100"
+            width="100"
+            color="#303f9f"
+            wrapperStyle={{ display: 'flex', justifyContent: 'center' }}
+          />
+        )}
       </>
     );
   }
