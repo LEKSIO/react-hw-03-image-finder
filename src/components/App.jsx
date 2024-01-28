@@ -5,6 +5,7 @@ import { ThreeDots } from 'react-loader-spinner';
 
 import { LARGE_IMAGE_URL, PER_PAGE, STATUSES } from 'utilities/constants';
 import { axiosGet } from 'services/api';
+import { Button } from './Button/Button';
 
 export class App extends Component {
   state = {
@@ -54,6 +55,8 @@ export class App extends Component {
 
   render() {
     const isPending = this.state.status === STATUSES.pending;
+    const isShow = !isPending && this.state.totalPages > this.state.page;
+
     return (
       <>
         <Searchbar changeStateQuery={this.changeStateQuery} />
@@ -69,6 +72,7 @@ export class App extends Component {
             wrapperStyle={{ display: 'flex', justifyContent: 'center' }}
           />
         )}
+        {isShow && <Button changeStatePage={this.changeStatePage} />}
       </>
     );
   }
