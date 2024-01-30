@@ -6,6 +6,7 @@ import { ThreeDots } from 'react-loader-spinner';
 import { LARGE_IMAGE_URL, PER_PAGE, STATUSES } from 'utilities/constants';
 import { axiosGet } from 'services/api';
 import { Button } from './Button/Button';
+import { Modal } from './Modal/Modal';
 
 export class App extends Component {
   state = {
@@ -27,6 +28,26 @@ export class App extends Component {
       this.getImages();
   }
 
+  changeStateQuery = query => {
+    this.setState({ query, page: 1 });
+  };
+
+  changeStatePage = () => {
+    this.setState(prevState => ({ page: prevState.page + 1 }));
+  };
+
+  handleOnClickImage = e => {
+    if (e.target.hasAttribute(LARGE_IMAGE_URL))
+      this.setState({
+        isModalOpen: true,
+        modalData: e.target.getAttribute(LARGE_IMAGE_URL),
+      });
+  };
+
+  closeModal = () => {
+    this.setState({ isModalOpen: false });
+  };
+
   getImages = async () => {
     try {
       this.setState({ status: STATUSES.pending });
@@ -39,18 +60,6 @@ export class App extends Component {
     } catch (error) {
       this.setState({ status: STATUSES.error, error: error.message });
     }
-  };
-
-  handleOnClickImage = e => {
-    if (e.target.hasAttribute(LARGE_IMAGE_URL))
-      this.setState({
-        isModalOpen: true,
-        modalData: e.target.getAttribute(LARGE_IMAGE_URL),
-      });
-  };
-
-  changeStateQuery = query => {
-    this.setState({ query, page: 1 });
   };
 
   render() {
@@ -73,6 +82,12 @@ export class App extends Component {
           />
         )}
         {isShow && <Button changeStatePage={this.changeStatePage} />}
+        {this.state.isModalOpen && (
+          <Modal
+            modalData={this.state.modalData}
+            closeModal={this.closeModal}
+          />
+        )}
       </>
     );
   }
