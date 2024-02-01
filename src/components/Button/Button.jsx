@@ -1,7 +1,7 @@
-import css from './Button.module.css';
 import React, { Component } from 'react';
+import css from './Button.module.css';
 
-class Button extends Component {
+export class Button extends Component {
   handleOnClick = () => {
     this.props.changeStatePage();
   };
@@ -14,5 +14,3 @@ class Button extends Component {
     );
   }
 }
-
-export { Button };

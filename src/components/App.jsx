@@ -1,12 +1,12 @@
 import { Component } from 'react';
+import { ThreeDots } from 'react-loader-spinner';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
-import { ThreeDots } from 'react-loader-spinner';
-
-import { LARGE_IMAGE_URL, PER_PAGE, STATUSES } from 'utilities/constants';
-import { axiosGet } from 'services/api';
 import { Button } from './Button/Button';
 import { Modal } from './Modal/Modal';
+
+import { axiosGet } from 'services/api';
+import { LARGE_IMAGE_URL, PER_PAGE, STATUSES } from 'utilities/constants';
 
 export class App extends Component {
   state = {
@@ -65,9 +65,8 @@ export class App extends Component {
   render() {
     const isPending = this.state.status === STATUSES.pending;
     const isShow = !isPending && this.state.totalPages > this.state.page;
-
     return (
-      <>
+      <div>
         <Searchbar changeStateQuery={this.changeStateQuery} />
         <ImageGallery
           hits={this.state.hits}
@@ -88,7 +87,7 @@ export class App extends Component {
             closeModal={this.closeModal}
           />
         )}
-      </>
+      </div>
     );
   }
 }
